@@ -1,4 +1,5 @@
 import { headers } from 'next/headers';
+import Image from 'next/image';
 import { getAppConfig } from '@/lib/utils';
 
 interface LayoutProps {
@@ -7,7 +8,7 @@ interface LayoutProps {
 
 export default async function Layout({ children }: LayoutProps) {
   const hdrs = await headers();
-  const { companyName, logo, logoDark } = await getAppConfig(hdrs);
+  const { companyName, logo } = await getAppConfig(hdrs);
 
   return (
     <>
@@ -18,10 +19,12 @@ export default async function Layout({ children }: LayoutProps) {
           href="https://teammates.ai"
           className="scale-100 transition-transform duration-300 hover:scale-110"
         >
-          <img
+          <Image
             src={logo}
             alt={`${companyName} Logo`}
-            className="w-[200px] h-auto object-contain"
+            className="h-auto w-[200px] object-contain"
+            width={200}
+            height={100}
           />
         </a>
         <span className="text-foreground font-mono text-xs font-bold tracking-wider uppercase">

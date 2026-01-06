@@ -4,7 +4,6 @@ import { type HTMLAttributes, useCallback, useState } from 'react';
 import { Track } from 'livekit-client';
 import { useChat, useRemoteParticipants } from '@livekit/components-react';
 import { ChatTextIcon, PhoneDisconnectIcon } from '@phosphor-icons/react/dist/ssr';
-import { TrackToggle } from '@/components/livekit/agent-control-bar/track-toggle';
 import { Button } from '@/components/livekit/button';
 import { Toggle } from '@/components/livekit/toggle';
 import { cn } from '@/lib/utils';
@@ -49,7 +48,6 @@ export function AgentControlBar({
     micTrackRef,
     cameraToggle,
     microphoneToggle,
-    screenShareToggle,
     handleAudioDeviceChange,
     handleVideoDeviceChange,
     handleMicrophoneDeviceSelectError,
