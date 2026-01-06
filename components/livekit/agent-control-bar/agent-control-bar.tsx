@@ -129,7 +129,7 @@ export function AgentControlBar({
           )}
 
           {/* Toggle Screen Share */}
-          {visibleControls.screenShare && (
+          {/* {visibleControls.screenShare && (
             <TrackToggle
               size="icon"
               variant="secondary"
@@ -139,7 +139,7 @@ export function AgentControlBar({
               disabled={screenShareToggle.pending}
               onPressedChange={screenShareToggle.toggle}
             />
-          )}
+          )} */}
 
           {/* Toggle Transcript */}
           <Toggle

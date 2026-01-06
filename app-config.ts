@@ -20,22 +20,22 @@ export interface AppConfig {
 }
 
 export const APP_CONFIG_DEFAULTS: AppConfig = {
-  companyName: 'LiveKit',
-  pageTitle: 'LiveKit Voice Agent',
-  pageDescription: 'A voice agent built with LiveKit',
+  companyName: 'Teammates',
+  pageTitle: 'Sara Interviewer',
+  pageDescription: 'A voice interviewer built with LiveKit',
 
   supportsChatInput: true,
   supportsVideoInput: true,
   supportsScreenShare: true,
   isPreConnectBufferEnabled: true,
 
-  logo: '/lk-logo.svg',
-  accent: '#002cf2',
-  logoDark: '/lk-logo-dark.svg',
+  logo: 'https://www.teammates.ai/assets/images/teammates_logo_black.png',
+  accent: '#0047AF',
+  logoDark: 'https://www.teammates.ai/assets/images/teammates_logo_black.png',
   accentDark: '#1fd5f9',
-  startButtonText: 'Start call',
+  startButtonText: 'Start Interview',
 
   // for LiveKit Cloud Sandbox
   sandboxId: undefined,
-  agentName: undefined,
+  agentName: 'sara-interviewer',
 };
