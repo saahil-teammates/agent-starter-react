@@ -26,14 +26,37 @@ function AppSetup() {
 
 interface AppProps {
   appConfig: AppConfig;
+  interviewId?: string;
 }
 
-export function App({ appConfig }: AppProps) {
+export function App({ appConfig, interviewId }: AppProps) {
   const tokenSource = useMemo(() => {
-    return typeof process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT === 'string'
-      ? getSandboxTokenSource(appConfig)
-      : TokenSource.endpoint('/api/connection-details');
-  }, [appConfig]);
+    if (typeof process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT === 'string') {
+      return getSandboxTokenSource(appConfig, interviewId);
+    }
+
+    // Custom token source to include interviewId
+    return TokenSource.custom(async () => {
+      const roomConfig = appConfig.agentName
+        ? { agents: [{ agent_name: appConfig.agentName }] }
+        : undefined;
+
+      const res = await fetch('/api/connection-details', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          room_config: roomConfig,
+          interviewId,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to fetch connection details');
+      }
+
+      return await res.json();
+    });
+  }, [appConfig, interviewId]);
 
   const session = useSession(
     tokenSource,

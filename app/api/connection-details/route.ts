@@ -7,6 +7,7 @@ type ConnectionDetails = {
   roomName: string;
   participantName: string;
   participantToken: string;
+  interviewId: string;
 };
 
 // NOTE: you are expected to define the following environment variables in `.env.local`:
@@ -29,9 +30,10 @@ export async function POST(req: Request) {
       throw new Error('LIVEKIT_API_SECRET is not defined');
     }
 
-    // Parse agent configuration from request body
+    // Parse agent configuration and interviewId from request body
     const body = await req.json();
     const agentName: string = body?.room_config?.agents?.[0]?.agent_name;
+    const interviewId: string = body?.interviewId || '';
 
     // Generate participant token
     const participantName = 'user';
@@ -41,7 +43,8 @@ export async function POST(req: Request) {
     const participantToken = await createParticipantToken(
       { identity: participantIdentity, name: participantName },
       roomName,
-      agentName
+      agentName,
+      interviewId
     );
 
     // Return connection details
@@ -50,6 +53,7 @@ export async function POST(req: Request) {
       roomName,
       participantToken: participantToken,
       participantName,
+      interviewId,
     };
     const headers = new Headers({
       'Cache-Control': 'no-store',
@@ -66,11 +70,13 @@ export async function POST(req: Request) {
 function createParticipantToken(
   userInfo: AccessTokenOptions,
   roomName: string,
-  agentName?: string
+  agentName?: string,
+  interviewId?: string
 ): Promise<string> {
   const at = new AccessToken(API_KEY, API_SECRET, {
     ...userInfo,
     ttl: '15m',
+    metadata: JSON.stringify({ interview_id: interviewId }),
   });
   const grant: VideoGrant = {
     room: roomName,

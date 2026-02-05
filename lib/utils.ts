@@ -99,9 +99,10 @@ export function getStyles(appConfig: AppConfig) {
 /**
  * Get a token source for a sandboxed LiveKit session
  * @param appConfig - The app configuration
+ * @param interviewId - Optional interview ID to pass to the backend
  * @returns A token source for a sandboxed LiveKit session
  */
-export function getSandboxTokenSource(appConfig: AppConfig) {
+export function getSandboxTokenSource(appConfig: AppConfig, interviewId?: string) {
   return TokenSource.custom(async () => {
     const url = new URL(process.env.NEXT_PUBLIC_CONN_DETAILS_ENDPOINT!, window.location.origin);
     const sandboxId = appConfig.sandboxId ?? '';
@@ -120,6 +121,7 @@ export function getSandboxTokenSource(appConfig: AppConfig) {
         },
         body: JSON.stringify({
           room_config: roomConfig,
+          interviewId,
         }),
       });
       return await res.json();
